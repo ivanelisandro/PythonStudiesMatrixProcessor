@@ -35,14 +35,27 @@ class MatrixProcessor:
 
     @staticmethod
     def sum(a: NumericMatrix, b: NumericMatrix) -> NumericMatrix:
-        summed = NumericMatrix("C", a.size)
+        result = NumericMatrix("C", a.size)
         for row in range(0, a.row_count):
             for column in range(0, a.column_count):
-                summed.items[row][column] = a.items[row][column] + b.items[row][column]
+                result.items[row][column] = a.items[row][column] + b.items[row][column]
 
-        return summed
+        return result
 
-    def start(self):
+    @staticmethod
+    def mutiply(a: NumericMatrix, number: int) -> NumericMatrix:
+        result = NumericMatrix("C", a.size)
+        for row in range(0, a.row_count):
+            for column in range(0, a.column_count):
+                result.items[row][column] = number * a.items[row][column]
+
+        return result
+
+    @staticmethod
+    def read_number():
+        return int(input())
+
+    def start_stage_1(self):
         a = self.create_matrix("A")
         b = self.create_matrix("B")
 
@@ -52,6 +65,12 @@ class MatrixProcessor:
         else:
             print("ERROR")
 
+    def start_stage_2(self):
+        a = self.create_matrix("A")
+        number = self.read_number()
+        multiplied = self.mutiply(a, number)
+        multiplied.print()
+
 
 proc = MatrixProcessor()
-proc.start()
+proc.start_stage_2()
