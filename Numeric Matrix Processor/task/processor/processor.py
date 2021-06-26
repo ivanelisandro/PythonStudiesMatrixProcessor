@@ -13,19 +13,22 @@ class NumericMatrix:
         for row in range(0, self.row_count):
             print(' '.join(str(r) for r in self.items[row]))
 
-    def set_type(self, first_input):
+    def set_type(self, text):
         _number = None
-        try:
-            int(first_input)
-            self.items_type = 'int'
-            self.initialize_items()
-        except ValueError:
+
+        for number in text:
             try:
-                float(first_input)
-                self.items_type = 'float'
-                self.initialize_items()
+                int(number)
+                self.items_type = 'int'
             except ValueError:
-                print("The operation cannot be performed.")
+                try:
+                    float(number)
+                    self.items_type = 'float'
+                    break
+                except ValueError:
+                    print("The operation cannot be performed.")
+
+        self.initialize_items()
 
     def initialize_items(self):
         if self.items_type == 'int':
@@ -40,7 +43,7 @@ class NumericMatrix:
         for row in range(0, self.row_count):
             text = input().split(' ')
             if self.items_type == '':
-                self.set_type(text[0])
+                self.set_type(text)
             for column in range(0, self.column_count):
                 if self.items_type == 'int':
                     self.items[row][column] = int(text[column])
@@ -57,7 +60,17 @@ class MatrixProcessor:
         print("1. Add matrices")
         print("2. Multiply matrix by a constant")
         print("3. Multiply matrices")
+        print("4. Transpose matrix")
         print("0. Exit")
+        selection = input("Your choice:")
+        return selection
+
+    @staticmethod
+    def transpose_menu():
+        print("1. Main diagonal")
+        print("2. Side diagonal")
+        print("3. Vertical line")
+        print("4. Horizontal line")
         selection = input("Your choice:")
         return selection
 
@@ -65,6 +78,13 @@ class MatrixProcessor:
     def create_matrix(name):
         size = input(f'Enter size of {name}matrix:').split(' ')
         matrix = NumericMatrix(name, size, '')
+        matrix.read_items()
+        return matrix
+
+    @staticmethod
+    def create_matrix2():
+        size = input(f'Enter matrix size:').split(' ')
+        matrix = NumericMatrix('', size, 'float')
         matrix.read_items()
         return matrix
 
@@ -109,6 +129,46 @@ class MatrixProcessor:
         return result
 
     @staticmethod
+    def transpose_diagonal(a: NumericMatrix) -> NumericMatrix:
+        print('The result is:')
+        result = NumericMatrix('', a.size, a.items_type)
+        for row in range(0, a.row_count):
+            for column in range(0, a.column_count):
+                result.items[column][row] = a.items[row][column]
+
+        return result
+
+    @staticmethod
+    def transpose_side_diagonal(a: NumericMatrix) -> NumericMatrix:
+        print('The result is:')
+        result = NumericMatrix('', a.size, a.items_type)
+        for row in range(0, a.row_count):
+            for column in range(0, a.column_count):
+                result.items[-(column + 1)][-(row + 1)] = a.items[row][column]
+
+        return result
+
+    @staticmethod
+    def transpose_vertical(a: NumericMatrix) -> NumericMatrix:
+        print('The result is:')
+        result = NumericMatrix('', a.size, a.items_type)
+        for row in range(0, a.row_count):
+            for column in range(0, a.column_count):
+                result.items[row][-(column + 1)] = a.items[row][column]
+
+        return result
+
+    @staticmethod
+    def transpose_horizontal(a: NumericMatrix) -> NumericMatrix:
+        print('The result is:')
+        result = NumericMatrix('', a.size, a.items_type)
+        for row in range(0, a.row_count):
+            for column in range(0, a.column_count):
+                result.items[-(row + 1)][column] = a.items[row][column]
+
+        return result
+
+    @staticmethod
     def read_number():
         _number = None
         text = input("Enter constant:")
@@ -149,6 +209,22 @@ class MatrixProcessor:
         else:
             print("The operation cannot be performed.")
 
+    def run_transpose(self):
+        selection = self.transpose_menu()
+        matrix = self.create_matrix2()
+        if selection == '1':
+            transpose = self.transpose_diagonal(matrix)
+            transpose.print()
+        elif selection == '2':
+            transpose = self.transpose_side_diagonal(matrix)
+            transpose.print()
+        elif selection == '3':
+            transpose = self.transpose_vertical(matrix)
+            transpose.print()
+        elif selection == '4':
+            transpose = self.transpose_horizontal(matrix)
+            transpose.print()
+
     def run(self):
         while True:
             selection = self.print_menu()
@@ -161,6 +237,8 @@ class MatrixProcessor:
                 self.multiply_by_constant()
             elif selection == '3':
                 self.multiply_matrices()
+            elif selection == '4':
+                self.run_transpose()
 
 
 proc = MatrixProcessor()
