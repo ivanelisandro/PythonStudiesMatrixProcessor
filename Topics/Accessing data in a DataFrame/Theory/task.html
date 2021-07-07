@@ -1,0 +1,101 @@
+<h2>Accessing data in a DataFrame</h2>
+<html>
+ <head></head>
+ <body>
+  <p>We have discussed what Pandas DataFrame can do in the previous topic. Now, let's dive deeper into the DataFrame structure and how we can modify it. Usually, you need to prepare your data well in advance. Basic operations could include <strong>renaming,</strong> <strong>rearranging </strong>columns or <strong>changing </strong>the index.</p> 
+  <h2>Accessing DataFrame axes</h2> 
+  <p>First, we need to import <code class="java">pandas</code> and create a DataFrame from a dictionary:</p> 
+  <pre><code class="java">import pandas as pd
+
+pets = {
+    "species": ["cat", "dog", 'parrot', 'cockroach'], 
+    "name": ["Dr. Mittens Lamar", "Diesel", 'Peach', 'Richard'], 
+    "legs": [4, 4, 2, 6],
+    "wings": [0, 0, 2, 4],
+    "looking_for_home": ['no', 'no', 'no', 'yes']
+}
+df = pd.DataFrame(pets)
+df.head()</code></pre> 
+  <p>Output:</p> 
+  <p><img alt="" src="https://ucarecdn.com/0777f955-6f1c-4777-a537-428591f48e53/"></p> 
+  <p>We can change indexes both in <code class="java">DataFrames</code> and <code class="java">Series</code>. Indexes can employ different <strong>data types </strong>such as strings, Datetime objects, float numbers, boolean values, and others.</p> 
+  <p>You can see the row index in the first column on the left. Column names (<strong>labels</strong>) are in the header. Another way to describe indexing is <strong>axis labeling</strong>. You can see two axes in our data frame, vertical (rows) — <code class="java">axis 0</code> and horizontal (columns) — <code class="java">axis 1</code>. Let's take a look at the axes of our <code class="java">DataFrame</code> by accessing the <code class="java">df.axes</code> attribute:</p> 
+  <p>Output:</p> 
+  <p><img alt="" src="https://ucarecdn.com/0b40f8eb-498b-45ad-8d6f-4b0e7efbe4bf/"></p> 
+  <p>The first object in the list is the indexing method for rows and the second for columns.</p> 
+  <p>The default way of indexing data containing n rows is by using an integer range 0, 1, 2, 3,..., n−1. This index reflects the positions of the elements. As you can see above, our DataFrame uses only this type of row indexing (integer range): the first row has the <code class="java">0</code> index, the last row has the <code class="java">3</code> index. Let's check the output of the <code class="java">df.info()</code> method:</p> 
+  <ul> 
+  </ul> 
+  <p>Output:</p> 
+  <p><img alt="" src="https://ucarecdn.com/d5ea041f-5e4a-4ddf-a850-f936ef489271/"></p> 
+  <p>As you can see, the first line describes the object class (<code class="java">DataFrame</code>), then the data type for indexing, and a list of columns that contains positional column indexes, column labels, <code class="java">Non-null Count</code> (a number of non-empty rows,) and <code class="java">Dtype</code> (a data type, it is automatically detected as <code class="java">object</code> by Pandas).</p> 
+  <p>The row index object is stored in<strong> </strong><code class="java">df.index</code>. We can see the current index by calling the corresponding attribute in the data frame:</p> 
+  <p>Output:</p> 
+  <p><img alt="" src="https://ucarecdn.com/01a724e9-ab84-40ce-af50-3eb34fff4457/"></p> 
+  <p>Since there are no row labels, the attribute will return an integer range. You can achieve the same result by using <code class="java">df.axes[0]</code>.</p> 
+  <p><button class="btn-sm btn-outline-secondary" onclick="getElementById('hint-3039').style.display='inline'"> Hint </button> </p>
+  <div id="hint-3039" style="display:none;">
+   <code class="java">.info()</code> also gives you positional indexes. In addition to positional indexing, we can also use custom labels. Sometimes, it helps.
+  </div>
+  <p></p> 
+  <p>To see the <strong>column labels</strong> of a DataFrame, use <code class="java">df.columns</code>:</p> 
+  <p>Output:</p> 
+  <p><img alt="" src="https://ucarecdn.com/f109fc88-cc91-430d-9814-f0ad8feb064b/"></p> 
+  <h2>Changing Index</h2> 
+  <p>One way to change column names is to assign a new value to the <code class="java">columns</code> attribute. The new value should have the same length as the number of columns.</p> 
+  <p>Let's change the value of some columns by assigning a list of new values to the columns attribute:</p> 
+  <pre><code class="java">df.columns = ['col', 'col2', 'col3', 'col4',  'col5']
+df.head()</code></pre> 
+  <p>Output:</p> 
+  <p><img alt="" src="https://ucarecdn.com/d02a2c8d-e717-473e-ab6c-dc4210d462d7/"></p> 
+  <p>As you can see, the columns now have different names. We can assign a new list of labels to the <code class="java">index</code> attribute:</p> 
+  <pre><code class="java">df.index = ['row', 'row2', 'row3', 'row4']
+df.head()</code></pre> 
+  <p>Output:</p> 
+  <p><img alt="" src="https://ucarecdn.com/267f28fe-0209-4e36-8144-13a230d813ce/"></p> 
+  <p>You can also use any column as index. Let's index our data by name. We can do it with the <code class="java">set_index()</code> method.</p> 
+  <p></p>
+  <div class="alert alert-warning">
+   Most Pandas functions do not change the existing DataFrame but return a new DataFrame object instead. So we can either assign a new DataFrame object to our 
+   <code class="java">df</code> variable, or use an optional argument 
+   <code class="java">inplace=True</code>. It will alter the existing DataFrame.
+  </div>
+  <p></p> 
+  <p>Let's return to our DataFrame and reset its index. Note, that the DataFrame will no longer display the integer range:</p> 
+  <pre><code class="java">df.set_index('name', inplace=True)  # is equivalent to df = df.set_index('name')
+df.head()</code></pre> 
+  <p>Output:</p> 
+  <p><img alt="" src="https://ucarecdn.com/4f5a5d46-bb17-4176-ad0f-1b24ed2539de/"></p> 
+  <p>Indexing is based on the <code class="java">name</code> column.</p> 
+  <p>If we look at the index attribute now by using <code class="java">df.index</code>, we can see that it changed from range to the list of names:</p> 
+  <p>Output:</p> 
+  <p><img alt="" src="https://ucarecdn.com/3f325b4c-0e33-4d25-a910-f146f62cb97e/"></p> 
+  <p> </p> 
+  <p><button class="btn-sm btn-outline-secondary" onclick="getElementById('hint-5315').style.display='inline'"> Hint </button> </p>
+  <div id="hint-5315" style="display:none;">
+   Only Dataframes have the 
+   <code class="java">.set_index()</code> method.
+  </div>
+  <p></p> 
+  <p>We can set the index column back to default (integer range) by using <code class="java">reset_index()</code>. As mentioned above, use <code class="java">inplace=True</code> to initiate the changes:</p> 
+  <pre><code class="java">df.reset_index(inplace=True)</code></pre> 
+  <p>Output:</p> 
+  <p><img alt="" src="https://ucarecdn.com/987f52b3-5096-4d31-8bd5-23a4e7ac0cbc/"></p> 
+  <p>Once we have reset the index, the <code class="java">name</code> column becomes first. If you want to reindex your data and delete existing indexes, use <code class="java">drop=True</code>.</p> 
+  <p>You can also use the <code class="java">.rename()</code> method to rename your columns. Just pass a dictionary with old column names as keys and new column names as values:</p> 
+  <pre><code class="java">df.rename(columns={'name': 'pet_name', 'looking_for_home': 'homeless'}, inplace=True)
+df.head()</code></pre> 
+  <p>Output:</p> 
+  <p><img alt="" src="https://ucarecdn.com/7b09e6b9-c896-4d8d-8fba-7799422528f0/"></p> 
+  <p>Very convenient. We don't need to mention every column if we want to rename only some of them. You can also use <code class="java">.rename()</code> to change indices, just pass instead of <code class="java">columns={...}</code> the argument <code class="java">index = {...}</code>. </p> 
+  <h2>Summary</h2> 
+  <p>In this topic, you've learned:</p> 
+  <ul> 
+   <li>about Pandas DataFrame axes and how to show them using <code class="java">.axes</code>, <code class="java">.index</code>, and <code class="java">.columns</code></li> 
+   <li>about index types: integer and label-based</li> 
+   <li>how to set, change and reset an index with <code class="java">.set_index()</code> and <code class="java">.reset_index()</code></li> 
+   <li>how to rename columns with <code class="java">.rename()</code></li> 
+  </ul> 
+  <p>All our examples contained ordinal numbers as indexes. But someday you will stumble upon examples that require label indexing. Take your time. Make sure that a method you opt for can bring you what you want instead of ruining everything with one typo.</p>
+ </body>
+</html>

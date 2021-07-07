@@ -1,2 +1,11 @@
 content:
 - Reading files
+- Accessing data in a DataFrame
+- Elif statement
+- Conditional selection
+- .loc   .iloc
+- Modifying a DataFrame
+- Integer arithmetic
+- Class instances
+- Summarizing categorical columns
+- List comprehension

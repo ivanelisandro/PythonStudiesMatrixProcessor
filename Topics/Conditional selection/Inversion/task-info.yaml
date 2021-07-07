@@ -1,0 +1,14 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    # your code here. The DataFrame is already loaded as a_rains.
+    print(...)
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/13306#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Tue, 29 Jun 2021 04:06:13 UTC
+record: -1
