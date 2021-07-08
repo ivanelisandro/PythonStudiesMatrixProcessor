@@ -61,6 +61,7 @@ class MatrixProcessor:
         print("2. Multiply matrix by a constant")
         print("3. Multiply matrices")
         print("4. Transpose matrix")
+        print("5. Calculate a determinant")
         print("0. Exit")
         selection = input("Your choice:")
         return selection
@@ -82,9 +83,9 @@ class MatrixProcessor:
         return matrix
 
     @staticmethod
-    def create_matrix2():
+    def create_matrix2(items_type=''):
         size = input(f'Enter matrix size:').split(' ')
-        matrix = NumericMatrix('', size, 'float')
+        matrix = NumericMatrix('', size, items_type)
         matrix.read_items()
         return matrix
 
@@ -95,6 +96,10 @@ class MatrixProcessor:
     @staticmethod
     def can_multiply(a: NumericMatrix, b: NumericMatrix):
         return a.column_count == b.row_count
+
+    @staticmethod
+    def can_calculate_determinant(a: NumericMatrix):
+        return a.row_count == a.column_count
 
     @staticmethod
     def sum(a: NumericMatrix, b: NumericMatrix) -> NumericMatrix:
@@ -182,6 +187,39 @@ class MatrixProcessor:
 
         return _number
 
+    @staticmethod
+    def minor(a: NumericMatrix, exclude_row, exclude_column) -> NumericMatrix:
+        size = [a.row_count - 1, a.column_count - 1]
+        result = NumericMatrix('', size, a.items_type)
+        result_row = 0
+        for row in range(0, a.row_count):
+            result_column = 0
+            if row != exclude_row:
+                for column in range(0, a.column_count):
+                    if column != exclude_column:
+                        result.items[result_row][result_column] = a.items[row][column]
+                        result_column += 1
+                result_row += 1
+        return result
+
+    def determinant(self, a: NumericMatrix):
+        if a.size == [1, 1]:
+            return int(a.items[0][0]) if a.items_type == "int" else a.items[0][0]
+        elif a.size == [2, 2]:
+            main = a.items[0][0] * a.items[1][1]
+            side = a.items[1][0] * a.items[0][1]
+            result = main - side
+            return int(result) if a.items_type == "int" else result
+        else:
+            row_to_remove = 0
+            determinant = 0
+            for column in range(0, a.column_count):
+                m = a.items[row_to_remove][column]
+                sign = (-1) ** (row_to_remove + column)
+                cofactor = sign * self.determinant(self.minor(a, row_to_remove, column))
+                determinant += m * cofactor
+            return int(determinant) if a.items_type == "int" else determinant
+
     def add_matrices(self):
         a = self.create_matrix('first ')
         b = self.create_matrix('second ')
@@ -209,9 +247,20 @@ class MatrixProcessor:
         else:
             print("The operation cannot be performed.")
 
+    def calculate_determinant(self):
+        a = self.create_matrix2()
+
+        if self.can_calculate_determinant(a):
+            determinant = self.determinant(a)
+            print('The result is:')
+            print(determinant)
+            print()
+        else:
+            print("The operation cannot be performed.")
+
     def run_transpose(self):
         selection = self.transpose_menu()
-        matrix = self.create_matrix2()
+        matrix = self.create_matrix2('float')
         if selection == '1':
             transpose = self.transpose_diagonal(matrix)
             transpose.print()
@@ -239,6 +288,8 @@ class MatrixProcessor:
                 self.multiply_matrices()
             elif selection == '4':
                 self.run_transpose()
+            elif selection == '5':
+                self.calculate_determinant()
 
 
 proc = MatrixProcessor()
