@@ -1,0 +1,161 @@
+<h2>Data types in NumPy</h2>
+<html>
+ <head></head>
+ <body>
+  <p>In this topic, we are going to get acquainted with <strong>NumPy data types</strong>. You have already learned some basic data types provided in Python: <code class="language-python">string</code> for text data, <code class="language-python">float</code> for floating-point numbers, etc. NumPy and Python data types share some common features, but at the same time, NumPy data has some unique peculiarities. We will discuss the basic NumPy data types and methods of working with them.</p> 
+  <h2 style="text-align: center;">Types of data in NumPy</h2> 
+  <p>Imagine that you strive to know everything about all data types in NumPy and you wonder how to do it. In this case <code class="language-python">np.sctypeDict</code> can help you. It prints a dictionary in which all the keys are different data types.</p> 
+  <pre><code class="language-python">print(np.sctypeDict)
+# {'?': &lt;class 'numpy.bool_'&gt;, 0: &lt;class 'numpy.bool_'&gt;, 'byte': &lt;class 'numpy.int8'&gt;, 'b': &lt;class 'numpy.int8'&gt;, 1: &lt;class 'numpy.int8'&gt;, 'ubyte': &lt;class 'numpy.uint8'&gt;, ...}</code></pre> 
+  <p>Of course, such a dictionary is not the most convenient way to explore the data types. The summary of the main types with their brief descriptions is shown below. The most widely-used types are the ones that represent integers and floating numbers, but there are other types, too. It is worth mentioning that NumPy data types are the same as in C programming language because NumPy itself is a wrapper on C, which makes NumPy operations so fast.</p> 
+  <p>1. <strong>Integer data</strong></p> 
+  <p>For integer numbers, there are a lot of specific data types in NumPy.</p> 
+  <table align="center"> 
+   <tbody> 
+    <tr> 
+     <td style="text-align: center;"><strong>Data type</strong></td> 
+     <td style="text-align: center;"><strong>Description</strong></td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">int_</code> or <code class="language-python">int32</code> or <code class="language-python">int64</code></td> 
+     <td style="text-align: center;">Integer type set by default (depends on a user's operation system)</td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">int8</code></td> 
+     <td style="text-align: center;">Integers ranging from -128 to 127</td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">int16</code></td> 
+     <td style="text-align: center;"> <p>Integers ranging from -32 768 to 32 767</p> </td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">int32</code></td> 
+     <td style="text-align: center;">Integers ranging from -2 147 483 648 to 2 147 483 647</td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">int64</code></td> 
+     <td style="text-align: center;">Integers ranging from -9 223 372 036 854 775 808 to 9 223 372 036 854 775 807</td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">uint8</code></td> 
+     <td style="text-align: center;">Non-negative integers ranging from 0 to 255</td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">uint16</code></td> 
+     <td style="text-align: center;">Non-negative integers ranging from 0 to 65 535</td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">uint32</code></td> 
+     <td style="text-align: center;">Non-negative integers ranging from 0 to 4 294 967 295</td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">uint64</code></td> 
+     <td style="text-align: center;">Non-negative integers ranging from 0 to 18 446 744 073 709 551 615</td> 
+    </tr> 
+    <tr> 
+    </tr> 
+   </tbody> 
+  </table> 
+  <p>Mind different ranges of numbers. As we have mentioned, NumPy specifies the size of the data: the thing is, one byte (or 8 bits) is required to decode integers from <code class="language-python">-128</code> to <code class="language-python">127</code>. If we take only positive ones, the range is from <code class="language-python">0</code> to <code class="language-python">255</code>, respectively. For larger integers, we need two bytes (16 bits), four bytes (32 bits), or eight bytes (64 bits).</p> 
+  <p>The range thresholds are determined by different powers of two. In case of <code class="language-python">int8</code>, it is 2<sup>(8-1)</sup> = 128. One bit is reserved for the negative / positive sign, so it's 2<sup>7</sup> rather than 2<sup>8</sup>. Also, one place is taken by zero, so the upper boundary is 128 - 1 = 127. Similarly, for the upper limit for <code class="language-python">int64</code>, 9 223 372 036 854 775 807 = 2<sup>(64-1)</sup> - 1.</p> 
+  <p>It is important to note that <code class="language-python">-3</code>, for instance, can have either <code class="language-python">int8</code>, <code class="language-python">int16</code>, <code class="language-python">int32</code>, or <code class="language-python">int64</code> data type. On the other hand, <code class="language-python">3</code> can represent any of <code class="language-python">int</code> and <code class="language-python">uint</code> formats, it all depends on what you are working with.</p> 
+  <p>2. <strong>Float data</strong></p> 
+  <p>For float values, there are the following data types:</p> 
+  <table align="center"> 
+   <tbody> 
+    <tr> 
+     <td style="text-align: center;"><strong>Data type</strong></td> 
+     <td style="text-align: center;"><strong>Description</strong></td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">float16</code></td> 
+     <td style="text-align: center;"> <p>Half-Precision Floating-Point Format (2 Bytes)</p> </td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">float32</code></td> 
+     <td style="text-align: center;"> <p>Single-Precision Floating-Point Format (4 bytes)</p> </td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">float_</code>or <code class="language-python">float64</code></td> 
+     <td style="text-align: center;"> <p>Double-Precision Floating-Point Format (8 bytes)</p> </td> 
+    </tr> 
+    <tr> 
+     <td style="text-align: center;"><code class="language-python">float128</code></td> 
+     <td style="text-align: center;"> <p>Quadruple-Precision Floating-Point Format (16 bytes)</p> </td> 
+    </tr> 
+    <tr> 
+    </tr> 
+   </tbody> 
+  </table> 
+  <p>It is necessary to clarify the types of precisions. Half-precision floating-point format provides results that are not that accurate. If you want to obtain more decimal spaces, you need to use the single-precision, double-precision, or quadruple-precision formats. It is shown in the example below.</p> 
+  <pre><code class="language-python">n = 22/7
+print(np.float16(n))  # 3.143
+print(np.float32(n))  # 3.142857
+print(np.float64(n))  # 3.142857142857143</code></pre> 
+  <p>For other purposes, you can use boolean, complex, or string data. <code class="language-python">bool_</code> is for boolean data in NumPy, it works the same way as the boolean type in Python. For complex numbers, there are several data types: <code class="language-python">complex64</code>, <code class="language-python">complex_</code> (<code class="language-python">complex128</code>), and <code class="language-python">complex256</code>. String data is represented by <code class="language-python">str_</code> (standard Python string) and <code class="language-python">unicode_</code> (Unicode string), and bytes as <code class="language-python">bytes_</code> (a sequence of encoded bytes which is ready to be stored in the memory of a program). You can read more about these data types in <a target="_blank" href="https://numpy.org/devdocs/user/basics.types.html" rel="noopener noreferrer nofollow">the official NumPy documentation</a>.</p> 
+  <h2 style="text-align: center;"> Specifying data types</h2> 
+  <p> In NumPy, the <code class="language-python">np.dtype</code> class stores different objects of the data type. Below there are some sample queries:</p> 
+  <pre><code class="language-python">print(np.float64)  # &lt;class 'numpy.float64'&gt;
+print(np.str_)     # &lt;class 'numpy.str_'&gt;</code></pre> 
+  <p>To find out the data type of an existing array, use <code class="language-python">array.dtype</code>:</p> 
+  <pre><code class="language-python">array_1 = np.array([[5, 6], [15, 0]])
+array_2 = np.array([[2.5, 5.7], [1.2, 6.9]])
+array_3 = np.array([[2, 34], [78.9, 4.5]])
+print(array_1.dtype)  # int64
+print(array_2.dtype)  # float64
+print(array_3.dtype)  # float64</code></pre> 
+  <p>Be aware of the <code class="language-python">array_3</code> variable. It contains an array with different types of data — integers and floats. When combining data, NumPy will convert all the data into one type, so that all the integers become floating numbers.</p> 
+  <p>When creating an array, you can specify the type of data in the array with the help of the <code class="language-python">dtype</code> argument:</p> 
+  <pre><code class="language-python">array_4 = np.array([[1, 2], [3, 4]], dtype=np.float32)
+print(array_4)
+# [[1. 2.]
+#  [3. 4.]]
+
+array_5 = np.arange(7, dtype=np.float64)
+print(array_5)  # [0. 1. 2. 3. 4. 5. 6.]
+
+array_6 = np.arange(7, dtype=np.int64)
+print(array_6)  # [0 1 2 3 4 5 6]</code></pre> 
+  <h2 style="text-align: center;">Changing data types</h2> 
+  <p> To transform one data type into another, use the <code class="language-python">np.&lt;type&gt;</code> function:</p> 
+  <pre><code class="language-python">print(np.bool(1))  # True
+print(np.float64(35))  # 35.0</code></pre> 
+  <p>If you want to do it with an array rather than with single values, use the <code class="language-python">array.astype()</code> function. It copies the array and converts it into the specified type.</p> 
+  <pre><code class="language-python">array_7 = np.array([[-129, 45], [34, 129]], dtype=np.int64)
+print(array_7)
+# [[-129   45]
+#  [  34  129]]
+
+print(array_7.astype(np.float64))
+# [[-129.   45.]
+#  [  34.  129.]]
+
+print(array_7.astype(np.str_))
+# [['-129' '45']
+#  ['34' '129']]
+
+print(array_7.astype(np.bool_))
+# [[ True  True]
+#  [ True  True]]</code></pre> 
+  <p>In the example above, you can see that we can easily transform our <code class="language-python">array_7</code> into float, string, or boolean data. However, if we try to change the type to <code class="language-python">int8</code>, a problem will arise:</p> 
+  <pre><code class="language-python">print(array_7.astype(np.int8))
+# [[ 127   45]
+#  [  34 -127]]</code></pre> 
+  <p>As you can remember, <code class="language-python">int8</code> can store integers from <code class="language-python">-128</code> to <code class="language-python">127</code> that take up to one byte. When we try to convert into <code class="language-python">int8</code> numbers that are not in its range, NumPy will not display a memory error, but instead, it just starts counting from the very beginning. <code class="language-python">-129</code> was changed to <code class="language-python">127</code>, the first<em> positive </em>integer. Similarly, <code class="language-python">129</code> was changed to the second negative integer.</p> 
+  <p></p>
+  <div class="alert alert-primary">
+   What happens in the example above, is called an 
+   <strong>integer overflow</strong>. It occurs when an arithmetic operation attempts to create a number outside of the range that can be represented within a given data type. Be careful with this, it can lead to errors!
+  </div>
+  <p></p> 
+  <h2 style="text-align: center;">Conclusion</h2> 
+  <p>NumPy provides a great number of data types compared to basic Python data types. In this topic we've learned:</p> 
+  <ul> 
+   <li>main types of data in NumPy;</li> 
+   <li>how to specify data types when you create arrays;</li> 
+   <li>how to print the data type of an existing array;</li> 
+   <li>the way of changing data types in arrays.</li> 
+  </ul> 
+  <p>The next step is practicing your skills!</p>
+ </body>
+</html>

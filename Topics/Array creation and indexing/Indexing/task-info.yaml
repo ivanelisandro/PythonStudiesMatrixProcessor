@@ -1,0 +1,22 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import numpy as np
+
+
+    a = np.array([[1, 3, 4],
+                  [45, 66, 76],
+                  [0, 9, 4],
+                  [12, 14, 90],
+                  [39, 71, 83],
+                  [27, 20, 5]])
+    # your code here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10084#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Tue, 20 Jul 2021 23:23:56 UTC
+record: -1

@@ -9,3 +9,20 @@ content:
 - Class instances
 - Summarizing categorical columns
 - List comprehension
+- Summarizing numeric columns
+- Grouping and aggregating data in pandas
+- Comments
+- Reshaping and Pivot Tables
+- Random module
+- Methods and attributes
+- Intro to NumPy
+- Array creation and indexing
+- Data types in NumPy
+- Operations with an array
+- Operations with several arrays
+- Else statement
+- Boolean operations on arrays
+- Identity testing
+- Submodule linalg
+- Math functions
+- Taking input

@@ -1,0 +1,20 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import pandas as pd
+
+    engines_sample = {'mpg': {0: 22.0, 1: 30.5, 2: 24.0, 3: 32.1, 4: 14.0, 5: 13.0, 6: 38.0, 7: 23.2, 8: 33.5, 9: 34.3, 10: 17.0, 11: 21.5, 12: 22.3, 13: 28.0, 14: 13.0, 15: 19.0, 16: 24.3, 17: 12.0, 18: 17.0, 19: 22.0, 20: 25.0, 21: 18.5, 22: 13.0, 23: 20.2, 24: 15.0, 25: 16.0, 26: 26.5, 27: 19.1, 28: 31.0, 29: 44.0, 30: 30.0, 31: 33.0, 32: 16.9, 33: 20.2, 34: 16.2, 35: 24.0, 36: 28.0, 37: 31.5, 38: 11.0, 39: 18.5, 40: 20.0, 41: 29.0, 42: 26.0, 43: 20.0, 44: 27.2, 45: 21.0, 46: 11.0, 47: 23.0, 48: 14.0, 49: 14.0}, 'cylinders': {0: 6, 1: 4, 2: 4, 3: 4, 4: 8, 5: 8, 6: 6, 7: 4, 8: 4, 9: 4, 10: 6, 11: 3, 12: 4, 13: 4, 14: 8, 15: 6, 16: 4, 17: 8, 18: 6, 19: 6, 20: 4, 21: 8, 22: 8, 23: 6, 24: 8, 25: 8, 26: 4, 27: 6, 28: 4, 29: 4, 30: 4, 31: 4, 32: 8, 33: 8, 34: 6, 35: 4, 36: 4, 37: 4, 38: 8, 39: 6, 40: 4, 41: 4, 42: 4, 43: 4, 44: 4, 45: 4, 46: 8, 47: 4, 48: 8, 49: 8}, 'origin': {0: 'usa', 1: 'europe', 2: 'europe', 3: 'usa', 4: 'usa', 5: 'usa', 6: 'usa', 7: 'usa', 8: 'usa', 9: 'europe', 10: 'usa', 11: 'japan', 12: 'usa', 13: 'japan', 14: 'usa', 15: 'usa', 16: 'usa', 17: 'usa', 18: 'europe', 19: 'usa', 20: 'usa', 21: 'usa', 22: 'usa', 23: 'usa', 24: 'usa', 25: 'usa', 26: 'usa', 27: 'usa', 28: 'japan', 29: 'europe', 30: 'europe', 31: 'europe', 32: 'usa', 33: 'usa', 34: 'europe', 35: 'japan', 36: 'usa', 37: 'europe', 38: 'usa', 39: 'usa', 40: 'europe', 41: 'europe', 42: 'usa', 43: 'europe', 44: 'usa', 45: 'europe', 46: 'usa', 47: 'usa', 48: 'usa', 49: 'usa'}}
+
+    df = pd.DataFrame(engines_sample)
+
+    # your code here
+    print(...)
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/12617#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Fri, 16 Jul 2021 03:29:50 UTC
+record: -1

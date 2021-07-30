@@ -1,0 +1,103 @@
+<h2>Array creation and indexing</h2>
+<html>
+ <head></head>
+ <body>
+  <p>In this topic, we continue discussing NumPy. We will focus on new ways of creating arrays, as well as on methods of their indexing and slicing. The introduction to NumPy showed the simplest way to create an array — converting a Python list using <code class="language-python">np.array()</code>. But there are other ways we may need to know.</p> 
+  <h2 style="text-align: center;">Array range and evenly spaced array</h2> 
+  <p>The first function that helps to create arrays in NumPy, is <code class="language-python">np.arange()</code>. It is similar to the built-in <code class="language-python">range()</code> generator of numbers, but <code class="language-python">np.arange()</code> returns an array. Let's have a look at the example.</p> 
+  <pre><code class="language-python">array_1 = np.arange(5)
+print(array_1)  # [0 1 2 3 4]</code></pre> 
+  <p>You can also create an array by specifying a start element, a stop element, and a step: <code class="language-python">np.arange(start, stop, step)</code>. The default step value equals to 1. Note that the start element is <em>included in the range</em> while the stop element <em>is not</em>.</p> 
+  <pre><code class="language-python">array_2 = np.arange(5, 9)
+array_3 = np.arange(5, 6, 0.2)
+print(array_2)  # [5 6 7 8]
+print(array_3)  # [5. 5.2 5.4 5.6 5.8]</code></pre> 
+  <p>If you want to space all the elements in your array evenly, <code class="language-python">np.linspace()</code> can help you. It takes the start value, the end value, and the <code class="language-python">num</code> parameter which is the total number of elements. The default <code class="language-python">num</code> value is 50, so in the second example below, there will be 50 elements in the array <code class="language-python">array_5</code>, evenly spaced between 21 and 23. As opposed to the <code class="language-python">np.arange()</code> function, the end value in <code class="language-python">np.linspace()</code> is always <em>included </em>in the array.</p> 
+  <pre><code class="language-python">array_4 = np.linspace(21, 23, num=5)
+array_5 = np.linspace(21, 23)
+print(array_4)   # [21.  21.5 22.  22.5 23. ]
+print(array_5)  # [21.         21.04081633 21.08163265 21.12244898 ... 22.95918367 23.        ]</code></pre> 
+  <h2 style="text-align: center;">Arrays filled with ones and zeros</h2> 
+  <p>Sometimes we need an array consisting of only zeroes or only ones. In NumPy, there are easy ways to create them. <code class="language-python">np.zeros()</code> and <code class="language-python">np.ones()</code> create new dimensioned arrays filled with the corresponding values. </p> 
+  <pre><code class="language-python">array_6 = np.ones((3, 2))
+array_7 = np.zeros(7)
+print(array_6)
+# [[1. 1.]
+#  [1. 1.]
+#  [1. 1.]]
+print(array_7)  # [0. 0. 0. 0. 0. 0. 0.]</code></pre> 
+  <p>The <code class="language-python">np.zeros_like()</code> and <code class="language-python">np.ones_like()</code> functions are similar to the previous ones, but they return an array of ones or zeros with the same shape and type as the given arrays.</p> 
+  <pre><code class="language-python">x = np.array([[1, 1, 1], [2, 2, 2]])
+y = np.array([1, 2, 3, 4, 5])
+array_8 = np.ones_like(x)
+array_9 = np.zeros_like(y)
+print(array_8)
+# [[1 1 1]
+#  [1 1 1]]
+print(array_9)  # [0 0 0 0 0]</code></pre> 
+  <h2 style="text-align: center;">Converting NumPy arrays to Python lists</h2> 
+  <p>Finally, when you do not need to work with arrays anymore, you can easily transform them into lists. NumPy provides the <code class="language-python">array.tolist()</code> function.</p> 
+  <pre><code class="language-python">array_10 = np.array([[1, 2], [3, 4]])
+lst1 = array_10.tolist()
+print(lst1)  # [[1, 2], [3, 4]]</code></pre> 
+  <p>If we attempt to use the <code class="language-python">list(array)</code> function on <code class="language-python">numpy</code> arrays, it will also return a list but its elements will be <code class="language-python">numpy</code> arrays.</p> 
+  <pre><code class="language-python">array_11 = np.array([[5, 2], [7, 4]])
+lst2 = list(array_11)
+print(lst2)  # [array([5, 2]), array([7, 4])]
+print(type(lst2[0]))  # &lt;class 'numpy.ndarray'&gt;</code></pre> 
+  <h2 style="text-align: center;">Indexing in arrays</h2> 
+  <p>Now, once we know how to create arrays, it is time to learn how to get access to their elements. Just like with Python lists, we can access the elements using indices. If you use a one-dimensional array in your program, there is no difference with how list indices work. However, when you face an n-dimensional array, do not forget about some key operations.</p> 
+  <p>Let's have a look at the example and discuss it.</p> 
+  <pre><code class="language-python">array_12 = np.array([[1, 12, 31], [4, 45, 64], [0, 7, 89]])
+print(array_12[2, 2])  # 89
+print(array_12[2][2])  # 89</code></pre> 
+  <p>First of all, we created a two-dimensional array. Suppose, we are interested in getting the last value. The idea of multidimensional indexing is quite easy: if you have two dimensions, the first value addresses the <em>row </em>of your array, the second one addresses the<em> index of the value</em> you are searching for. You can see that the result of <code class="language-python">array_12[2, 2]</code> and <code class="language-python">array_12[2][2]</code> is the same. The first case is more efficient, however, because when we write <code class="language-python">array_12[2][2]</code>, a new temporary array is created after the first index that is subsequently indexed by 2.</p> 
+  <p>Similarly, if you have three dimensions, you need to print three values to execute multidimensional indexing, etc. Let's look at the three-dimensional example below.</p> 
+  <pre><code class="language-python">array_13 = np.array([[[1, 12, 31], [4, 45, 64], [0, 7, 89]]])
+print(array_13[0, 1, 1])  # 45
+print(array_13[0][1][1])  # 45</code></pre> 
+  <p></p>
+  <div class="alert alert-primary">
+   If you print an index that is out of the bounds, it will cause an error in your program.
+  </div>
+  <p></p> 
+  <h2 style="text-align: center;">Slicing in arrays</h2> 
+  <p>NumPy arrays can also be sliced like lists in Python. Slicing a one-dimensional array is the same as slicing a Python list, so our main task is to understand how to slice <em>n-dimensional</em> arrays. Look at the example below:</p> 
+  <pre><code class="language-python">array_14 = np.array([[100, 101, 102],
+                 [103, 104, 105],
+                 [106, 107, 108],
+                 [109, 110, 111]])
+print(array_14[1:3, 1])   # [104 107]</code></pre> 
+  <p>We start by creating a two-dimensional array <code class="language-python">array_14</code> with four rows. When we write <code class="language-python">array_14[1:3, 1]</code>, the first part addresses <em>the slice of the rows</em> to be taken into account, then the second part chooses an element of each row. As a result, we have a new one-dimensional array.</p> 
+  <p>Let's have a look at some more examples. <code class="language-python">array_15</code> below is a three-dimensional array. Just like in Python, we can use the <em>negative </em>index to choose elements from the end — the last two-dimensional array <code class="language-python">[[11, 12, 13, 14, 15], [16, 17, 18, 19, 20]]</code> in this case. Then we just make a full copy of the array with the help of the <code class="language-python">:</code> operator, and at last, in each row, we choose a particular slice.</p> 
+  <pre><code class="language-python">array_15 = np.array([[[1, 2, 3, 4, 5],
+                 [6, 7, 8, 9, 10]],
+                 [[11, 12, 13, 14, 15],
+                 [16, 17, 18, 19, 20]]])
+print(array_15[-1, :, 1:4])
+# [[12 13 14]
+#  [17 18 19]]</code></pre> 
+  <p>In <code class="language-python">array_16</code> we extract every row and element with a given step.</p> 
+  <pre><code class="language-python"># two-dimensional array
+array_16 = np.array([[1, 2, 3, 4, 5],
+                 [5, 4, 3, 2, 1],
+                 [6, 7, 8, 9, 10],
+                 [10, 9, 8, 7, 6],
+                 [11, 12, 13, 14, 15]])
+print(array_16[::2, ::2])
+# [[ 1  3  5]
+#  [ 6  8 10]
+#  [11 13 15]]</code></pre> 
+  <p>As you can see, slicing operations are the same as with Python lists. But here, we apply them with the dimensions in mind. This can lead to some errors, especially with high-dimensional arrays, so we need to be very careful.</p> 
+  <h2 style="text-align: center;">Conclusion</h2> 
+  <p>In this topic, we have learned how to:</p> 
+  <ul> 
+   <li>create arrays using different methods,</li> 
+   <li>transform arrays into lists,</li> 
+   <li>index and slice multidimensional arrays.</li> 
+  </ul> 
+  <p>Now it's high time to move on to some practical tasks. Practice makes perfect!</p> 
+  <ul> 
+  </ul>
+ </body>
+</html>

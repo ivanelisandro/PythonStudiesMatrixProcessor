@@ -1,0 +1,114 @@
+<h2>Operations with several arrays</h2>
+<html>
+ <head></head>
+ <body>
+  <p>NumPy provides a great variety of ways to operate on arrays. In this topic, we are going to cover the main procedures and discuss their peculiarities.</p> 
+  <h2 style="text-align: center;">Basic arithmetic operations on arrays</h2> 
+  <p>First of all, do not forget to import the module:</p> 
+  <pre><code class="language-python">import numpy as np</code></pre> 
+  <p>The first operations we are going to cover are basic mathematical operations: addition, subtraction, multiplication, division, and exponentiation. They all are element-wise; this means that the operations are applied to pairs of corresponding elements in two arrays and the results are placed in a new array.</p> 
+  <ol> 
+   <li><strong>Addition</strong> <p>To calculate the sum of two arrays, you can use the <code class="language-python">np.add()</code> function.</p> <pre><code class="language-python">a1 = np.array([1, 2, 3])
+a2 = np.array([4, 5, 6])
+a3 = np.add(a1, a2)
+print(a3)  # [5 7 9]</code></pre> <p>There is also an opportunity to add two-dimensional arrays or arrays with more than two dimensions. Another way of using addition is <code class="language-python">a1 + a2</code>.</p> <pre><code class="language-python">a1 = np.array([[1, 2], [3, 4]])
+a2 = np.array([[5, 6], [7, 8]])
+a3 = a1 + a2
+print(a3)
+# [[ 6  8]
+#  [10 12]]</code></pre> <p>Now mind another example:</p> <pre><code class="language-python">a1 = np.array([[1, 2], [3, 4]])
+a2 = np.array([[5, 6, 7], [8, 9, 10]])
+a3 = np.add(a1, a2)
+# ValueError: operands could not be broadcast together with shapes (2,2) (2,3)</code></pre> <p>The thing is, the first array has two columns, while the second one has three columns, so the <code class="language-python">ValueError</code> is raised because of the incompatibility of different shapes.</p> Now let's analyze another example. <pre><code class="language-python">a1 = np.array([[1, 2], [3, 4]])
+a2 = np.array([5, 6])
+a3 = np.add(a1, a2)
+print(a3)
+# [[ 6  8]
+#  [ 8 10]]</code></pre> <p>The operands have different shapes, but there are no errors. So, what happens in this case? The shape of the first operand is <code class="language-python">(2,2)</code>, the shape of the second one is <code class="language-python">(2,)</code>. To make them compatible and apply an element-wise addition, NumPy uses <strong>broadcasting.</strong> Broadcasting can be described as a set of rules for applying element-wise operations on arrays of different shapes. When you work with two arrays, NumPy always compares their sizes and turns them into one shape, <em>if possible</em>. In the example, broadcasting goes as follows: as the last dimensions have an equal number of elements, it takes the second operand and expands it to a larger size:</p> <p style="text-align: center;"><img alt="" src="https://ucarecdn.com/5cf5b456-7ef3-44f1-8a65-f0a849a8c005/"></p> <p>In other words, the broadcasting procedure replicates <code class="language-python">[5 6]</code> and adds it to <code class="language-python">[1 2]</code> and<code class="language-python">[3 4]</code>. The resultant array has the <code class="language-python">(2,2)</code> shape.</p> <p>There is another example for you:</p> <pre><code class="language-python">a1 = np.array([[[1, 2, 3]], [[4, 5, 6]]])
+a2 = np.array([[7], [8]])
+a3 = np.add(a1, a2)
+print(a3)
+# [[[ 8  9 10]
+#   [ 9 10 11]]
+#
+#  [[11 12 13]
+#   [12 13 14]]]</code></pre> <p>The shape of the first operand is <code class="language-python">(2,1,3)</code>, the second one has the <code class="language-python">(2,1)</code> shape. What does broadcasting do in this case? Dimensions with the size equal to 1 are expanded to match dimensions in the first array: <code class="language-python">7</code> is replicated, so it can be added to <code class="language-python">[1 2 3]</code>; <code class="language-python">8</code> is also replicated and added to <code class="language-python">[1 2 3]</code>. Then, <code class="language-python">7</code> is added to <code class="language-python">[4 5 6]</code>, and so is <code class="language-python">8</code>. The shape of the resultant array is <code class="language-python">(2,2,3)</code>.</p> <p>At the end of the day, broadcasting tries to match different sizes so that arithmetic operations can be performed. Most of the examples below will include broadcasting, too, so that you can understand how it works better. You can read more about broadcasting in the <a target="_blank" href="https://numpy.org/doc/stable/user/basics.broadcasting.html" rel="noopener noreferrer nofollow">official Numpy guidelines</a>.</p> </li> 
+   <li> <p><strong>Subtraction</strong></p> <p>To subtract arrays, we can use <code class="language-python">np.subtract()</code>:</p> <pre><code class="language-python">a1 = np.array([[2, 7], [8, 13]])
+a2 = np.array([5])
+a3 = np.subtract(a1, a2)
+print(a3)
+# [[-3  2]
+#  [ 3  8]]</code></pre> <p>In this case, the only element of the second array is also replicated. Mind that you can type <code class="language-python">a1 - a2</code> instead of <code class="language-python">np.subtract(a1, a2)</code>. Moreover, you can subtract the integer <code class="language-python">5</code> instead of the NumPy array <code class="language-python">[5]</code>, the result will stay the same.</p> </li> 
+   <li> <p><strong>Multiplication</strong></p> <p><code class="language-python">np.multiply()</code> will multiply arguments of arrays element-wise:</p> <pre><code class="language-python">a1 = np.array([[[1, 2, 3], [3, 4, 5]], [[5, 6, 7] ,[7, 8, 9]]])
+a2 = np.array([[-1, 0, 7], [12, 14, 5]])
+a3 = np.multiply(a1, a2)
+print(a3)
+# [[[ -1   0  21]
+#   [ 36  56  25]]
+# 
+#  [[ -5   0  49]
+#   [ 84 112  45]]]</code></pre> <p>As you can see, the shape of the resultant array is equal to the shape of the bigger array. Again, writing <code class="language-python">a1 * a2</code> is equal to <code class="language-python">np.multiply(a1, a2)</code>.</p> </li> 
+   <li><strong>Division</strong> <p><code class="language-python">np.divide()</code> allows us to divide two arrays:</p> <pre><code class="language-python">a1 = np.array([[[-6, 12, 3]], [[2, 15, 3]]])
+a2 = np.array([[2], [4]])
+a3 = np.divide(a1, a2)
+print(a3)
+# [[[-3.    6.    1.5 ]
+#   [-1.5   3.    0.75]]
+#
+#  [[ 1.    7.5   1.5 ]
+#   [ 0.5   3.75  0.75]]]</code></pre> <p>You can also use <code class="language-python">a1 / a2</code> instead of <code class="language-python">np.divide(a1, a2)</code>.</p> </li> 
+   <li> <p><strong>Exponentiation</strong></p> <code class="language-python">np.power()</code> raises elements of the first array to powers from the second array. It is also an element-wise operation. <pre><code class="language-python">a1 = np.array([[1, 2], [3, 4]])
+a2 = np.array([[5, 6], [7, 8]])
+a3 = np.power(a1, a2)
+print(a3)
+# [[    1    64]
+#  [ 2187 65536]]</code></pre> <p><code class="language-python">a1 ** a2</code> is another way to do so.</p> </li> 
+  </ol> 
+  <p>To sum up, NumPy allows us to implement basic arithmetic operations on several arrays. If array shapes are different, sometimes it is still possible to perform operations on them, with the help of broadcasting.</p> 
+  <h2 style="text-align: center;">Array multiplication vs matrix product</h2> 
+  <p>When discussing multiplication in NumPy, we should distinguish two different operations: <code class="language-python">np.multiply()</code> and <code class="language-python">np.matmul()</code>. Let's take a look at the example:</p> 
+  <pre><code class="language-python">a1 = np.array([[1, 2], [5, 8]])
+a2 = np.array([[4, 6], [7, 3]])
+
+a3 = np.multiply(a1, a2)
+print(a3)
+# [[ 4 12]
+#  [35 24]]
+
+a4 = np.matmul(a1, a2)
+print(a4)
+# [[18 12]
+#  [76 54]]</code></pre> 
+  <p>As far as we know, <code class="language-python">np.multiply()</code> is applied when we want to compute element-wise multiplication. By contrast, <code class="language-python">np.matmul()</code> is used for obtaining <strong>the matrix product</strong> of two arrays, it is not an element-wise operation. You can also change <code class="language-python">np.matmul(a1, a2)</code> to <code class="language-python">a1 @ a2</code> which is the same way to obtain the matrix product.</p> 
+  <h2 style="text-align: center;">Array transposing</h2> 
+  <p>Finally, it is worth mentioning that NumPy provides a way for transposing a matrix using <code class="language-python">np.transpose()</code> or the alternative <code class="language-python">array.T</code>:</p> 
+  <pre><code class="language-python">a1 = np.array([[1, 2], [3, 4]])
+a2 = np.transpose(a1)
+print(a2)
+# [[1 3]
+#  [2 4]]
+
+a3 = a1.T
+print(a3 == a2)  # True</code></pre> 
+  <p>It can also be implemented if the number of rows and the number of columns are not equal:</p> 
+  <pre><code class="language-python">a1 = np.array([[1, 2], [3, 4], [5, 6]])
+a2 = a1.T
+print(a2)
+# [[1 3 5]
+#  [2 4 6]]</code></pre> 
+  <p>However, if you deal with a one-dimensional array, the same array will be returned:</p> 
+  <pre><code class="language-python">a1 = np.array([1, 2, 3, 4])
+a2 = np.transpose(a1)
+print(a2)
+# [1 2 3 4]</code></pre> 
+  <h2 style="text-align: center;">Conclusion</h2> 
+  <p>In this topic, we have learned:</p> 
+  <ul> 
+   <li>how to use basic arithmetic procedures for two arrays;</li> 
+   <li>the basics of broadcasting in NumPy;</li> 
+   <li>the difference between array multiplication and matrix product;</li> 
+   <li>how to transpose arrays.</li> 
+  </ul> 
+  <p>Now it is time for you to practice!</p>
+ </body>
+</html>

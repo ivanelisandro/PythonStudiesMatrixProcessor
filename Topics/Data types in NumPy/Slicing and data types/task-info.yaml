@@ -1,0 +1,17 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    import numpy as np
+
+    array = np.array([[212, 215, 434, 2, 0],
+                      [6, 447, 0, 4, 143],
+                      [10, 478, 601, 602, 3]], dtype=np.float64)
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/10101#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Tue, 20 Jul 2021 23:55:49 UTC
+record: -1

@@ -3,7 +3,7 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/308175/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: Wed, 07 Jul 2021 22:02:21 UTC
+update_date: Fri, 30 Jul 2021 22:06:22 UTC
 stages:
 - id: 528
   step: 8748
@@ -19,7 +19,7 @@ stages:
   is_completed: true
 - id: 532
   step: 8752
-  is_completed: false
+  is_completed: true
 - id: 533
   step: 8753
   is_completed: false
@@ -92,10 +92,14 @@ topics:
     theory_id: 7929
   - title: IDE
     theory_id: 10996
+  - title: Computer programming
+    theory_id: 8739
   - title: Intro to computational thinking
     theory_id: 8742
   - title: Components of computational thinking
     theory_id: 8745
+  - title: Introduction to OOP
+    theory_id: 3614
   - title: Declaring a function
     theory_id: 5900
   - title: Arguments
@@ -117,10 +121,6 @@ topics:
   - title: Objects in Python
     theory_id: 9262
   3:
-  - title: Computer programming
-    theory_id: 8739
-  - title: Introduction to OOP
-    theory_id: 3614
   - title: Scopes
     theory_id: 6322
   - title: Class
@@ -140,10 +140,10 @@ topics:
     theory_id: 9184
   - title: Computer algorithms
     theory_id: 4953
-  - title: Algorithms in Python
-    theory_id: 7316
   - title: Recursion basics
     theory_id: 5984
+  - title: Algorithms in Python
+    theory_id: 7316
   - title: Recursion in Python
     theory_id: 7665
   5:
