@@ -1,3 +1,6 @@
+import math
+
+
 class NumericMatrix:
     def __init__(self, name, size, items_type):
         self.name = name
@@ -9,9 +12,30 @@ class NumericMatrix:
         if self.items_type != '':
             self.initialize_items()
 
+    @staticmethod
+    def round_decimals_down(number: float):
+        factor = 10 ** 2
+        return math.floor(number * factor) / factor
+
+    @staticmethod
+    def round_decimals_up(number: float):
+        factor = 10 ** 2
+        return math.ceil(number * factor) / factor
+
+    def format_item(self, number):
+        if number == 0 == -0.0 == +0.0:
+            return f'{0:5}'
+        else:
+            rounded_number = self.round_decimals_down(number) if number > 0 else self.round_decimals_up(number)
+            return f'{rounded_number:5.2f}'
+
     def print(self):
         for row in range(0, self.row_count):
             print(' '.join(str(r) for r in self.items[row]))
+
+    def print_formatted(self):
+        for row in range(0, self.row_count):
+            print(' '.join(self.format_item(r) for r in self.items[row]))
 
     def set_type(self, text):
         _number = None
@@ -62,6 +86,7 @@ class MatrixProcessor:
         print("3. Multiply matrices")
         print("4. Transpose matrix")
         print("5. Calculate a determinant")
+        print("6. Inverse matrix")
         print("0. Exit")
         selection = input("Your choice:")
         return selection
@@ -103,7 +128,6 @@ class MatrixProcessor:
 
     @staticmethod
     def sum(a: NumericMatrix, b: NumericMatrix) -> NumericMatrix:
-        print('The result is:')
         result = NumericMatrix('', a.size, a.items_type)
         for row in range(0, a.row_count):
             for column in range(0, a.column_count):
@@ -113,7 +137,6 @@ class MatrixProcessor:
 
     @staticmethod
     def multiply_constant(a: NumericMatrix, number) -> NumericMatrix:
-        print('The result is:')
         result = NumericMatrix('', a.size, a.items_type)
         for row in range(0, a.row_count):
             for column in range(0, a.column_count):
@@ -123,7 +146,6 @@ class MatrixProcessor:
 
     @staticmethod
     def multiply(a: NumericMatrix, b: NumericMatrix) -> NumericMatrix:
-        print('The result is:')
         size = [a.row_count, b.column_count]
         result = NumericMatrix('', size, a.items_type)
         for row in range(0, result.row_count):
@@ -135,7 +157,6 @@ class MatrixProcessor:
 
     @staticmethod
     def transpose_diagonal(a: NumericMatrix) -> NumericMatrix:
-        print('The result is:')
         result = NumericMatrix('', a.size, a.items_type)
         for row in range(0, a.row_count):
             for column in range(0, a.column_count):
@@ -145,7 +166,6 @@ class MatrixProcessor:
 
     @staticmethod
     def transpose_side_diagonal(a: NumericMatrix) -> NumericMatrix:
-        print('The result is:')
         result = NumericMatrix('', a.size, a.items_type)
         for row in range(0, a.row_count):
             for column in range(0, a.column_count):
@@ -155,7 +175,6 @@ class MatrixProcessor:
 
     @staticmethod
     def transpose_vertical(a: NumericMatrix) -> NumericMatrix:
-        print('The result is:')
         result = NumericMatrix('', a.size, a.items_type)
         for row in range(0, a.row_count):
             for column in range(0, a.column_count):
@@ -165,12 +184,18 @@ class MatrixProcessor:
 
     @staticmethod
     def transpose_horizontal(a: NumericMatrix) -> NumericMatrix:
-        print('The result is:')
         result = NumericMatrix('', a.size, a.items_type)
         for row in range(0, a.row_count):
             for column in range(0, a.column_count):
                 result.items[-(row + 1)][column] = a.items[row][column]
+        return result
 
+    @staticmethod
+    def cofactors_matrix(a: NumericMatrix):
+        result = NumericMatrix('', a.size, a.items_type)
+        for row in range(0, result.row_count):
+            for column in range(0, result.column_count):
+                result.items[row][column] = (-1) ** (row + column) * a.items[row][column]
         return result
 
     @staticmethod
@@ -220,12 +245,19 @@ class MatrixProcessor:
                 determinant += m * cofactor
             return int(determinant) if a.items_type == "int" else determinant
 
+    def invert(self, a: NumericMatrix, determinant) -> NumericMatrix:
+        minors = self.minors_matrix(a)
+        cofactors = self.cofactors_matrix(minors)
+        transpose = self.transpose_diagonal(cofactors)
+        return self.multiply_constant(transpose, (1 / determinant))
+
     def add_matrices(self):
         a = self.create_matrix('first ')
         b = self.create_matrix('second ')
 
         if self.can_sum(a, b):
             summed = self.sum(a, b)
+            print('The result is:')
             summed.print()
         else:
             print("The operation cannot be performed.")
@@ -235,6 +267,7 @@ class MatrixProcessor:
         number = self.read_number()
         if number:
             multiplied = self.multiply_constant(a, number)
+            print('The result is:')
             multiplied.print()
 
     def multiply_matrices(self):
@@ -243,6 +276,7 @@ class MatrixProcessor:
 
         if self.can_multiply(a, b):
             multiplied = self.multiply(a, b)
+            print('The result is:')
             multiplied.print()
         else:
             print("The operation cannot be performed.")
@@ -263,16 +297,41 @@ class MatrixProcessor:
         matrix = self.create_matrix2('float')
         if selection == '1':
             transpose = self.transpose_diagonal(matrix)
+            print('The result is:')
             transpose.print()
         elif selection == '2':
             transpose = self.transpose_side_diagonal(matrix)
+            print('The result is:')
             transpose.print()
         elif selection == '3':
             transpose = self.transpose_vertical(matrix)
+            print('The result is:')
             transpose.print()
         elif selection == '4':
             transpose = self.transpose_horizontal(matrix)
+            print('The result is:')
             transpose.print()
+
+    def minors_matrix(self, a: NumericMatrix):
+        result = NumericMatrix('', a.size, a.items_type)
+        for row in range(0, a.row_count):
+            for column in range(0, a.column_count):
+                result.items[row][column] = self.determinant(self.minor(a, row, column))
+        return result
+
+    def invert_matrix(self):
+        a = self.create_matrix2('float')
+
+        if self.can_calculate_determinant(a):
+            determinant = self.determinant(a)
+            if determinant != 0:
+                inverse = self.invert(a, determinant)
+                print('The result is:')
+                inverse.print_formatted()
+            else:
+                print("This matrix doesn't have an inverse.")
+        else:
+            print("This matrix doesn't have an inverse.")
 
     def run(self):
         while True:
@@ -290,6 +349,8 @@ class MatrixProcessor:
                 self.run_transpose()
             elif selection == '5':
                 self.calculate_determinant()
+            elif selection == '6':
+                self.invert_matrix()
 
 
 proc = MatrixProcessor()
